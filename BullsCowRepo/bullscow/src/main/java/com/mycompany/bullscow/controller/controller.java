@@ -33,7 +33,7 @@ public class controller {
 
     @PostMapping
     public Game all() {
-        game.setCorrectAnswerKey(0123);
+        game.setCorrectAnswerKey("0123");
         game.setGameStatus(false);
         System.out.println(dao.addGame(game));
         return game;

@@ -14,7 +14,7 @@ import java.util.List;
 public class Game {
 
     private int gameId;
-    private int correctAnswerKey;
+    private String correctAnswerKey;
     private Boolean gameStatus;
     private Round round;
 
@@ -26,11 +26,11 @@ public class Game {
         this.gameId = gameId;
     }
 
-    public int getCorrectAnswerKey() {
+    public String getCorrectAnswerKey() {
         return correctAnswerKey;
     }
 
-    public void setCorrectAnswerKey(int correctAnswerKey) {
+    public void setCorrectAnswerKey(String correctAnswerKey) {
         this.correctAnswerKey = correctAnswerKey;
     }
 
@@ -50,5 +50,6 @@ public class Game {
         this.round = round;
     }
 
+  
 
 }

@@ -89,7 +89,7 @@ public class GameDaoDB implements GameDao {
         public Game mapRow(ResultSet rs, int index) throws SQLException {
             Game game = new Game();
             game.setGameId(rs.getInt("GameId"));
-            game.setCorrectAnswerKey(rs.getInt("CorrectAnswerKey"));
+            game.setCorrectAnswerKey(rs.getString("CorrectAnswerKey"));
             game.setGameStatus(rs.getBoolean("GameStatus"));
             return game;
         }
