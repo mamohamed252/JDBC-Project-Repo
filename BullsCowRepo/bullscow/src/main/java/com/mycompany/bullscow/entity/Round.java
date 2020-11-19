@@ -18,7 +18,7 @@ public class Round {
     private LocalDateTime time;
     private String guessResultExact;
     private String guessResultPartial;
-    private int userGuessKey;
+    private String userGuessKey;
     private List<Round> rounds;
 
     public int getRoundId() {
@@ -53,11 +53,11 @@ public class Round {
         this.guessResultPartial = guessResultPartial;
     }
 
-    public int getUserGuessKey() {
+    public String getUserGuessKey() {
         return userGuessKey;
     }
 
-    public void setUserGuessKey(int userGuessKey) {
+    public void setUserGuessKey(String userGuessKey) {
         this.userGuessKey = userGuessKey;
     }
 
@@ -68,6 +68,5 @@ public class Round {
     public void setRounds(List<Round> rounds) {
         this.rounds = rounds;
     }
-
 
 }

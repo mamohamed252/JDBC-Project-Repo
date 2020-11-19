@@ -7,7 +7,10 @@ package com.mycompany.bullscow.controller;
 
 import com.mycompany.bullscow.DAO.GameDao;
 import com.mycompany.bullscow.DAO.GameDaoDB;
+import com.mycompany.bullscow.DAO.RoundDao;
 import com.mycompany.bullscow.entity.Game;
+import com.mycompany.bullscow.service.GameRoomServiceDB;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class controller {
 //comment
    //comment2
-    
-    private final GameDao dao;
 
-    public controller(GameDao dao) {
-        this.dao = dao;
+    public GameRoomServiceDB service;
+    
+@Autowired
+    public controller(GameRoomServiceDB service) {
+        this.service = service;
     }
 
     Game game = new Game();
@@ -35,7 +39,7 @@ public class controller {
     public Game all() {
         game.setCorrectAnswerKey("0123");
         game.setGameStatus(false);
-        System.out.println(dao.addGame(game));
+        System.out.println(service.addGame(game));
         return game;
     }
 

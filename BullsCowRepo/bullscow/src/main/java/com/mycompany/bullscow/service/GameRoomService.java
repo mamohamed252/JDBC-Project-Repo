@@ -26,4 +26,6 @@ public interface GameRoomService {
     List<Round> getRoundsById(int roundId);
 
     Round addRound(Round round);
+
+    Round getResults(Game game);
 }
