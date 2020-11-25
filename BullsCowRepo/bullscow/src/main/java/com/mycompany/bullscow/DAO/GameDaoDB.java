@@ -57,10 +57,10 @@ public class GameDaoDB implements GameDao {
         }
     }
 
-    private Round getRoundsForGame(Game game) {
+    private List<Round> getRoundsForGame(Game game) {
         final String SELECT_ROUNDS_FOR_GAME = "SELECT r.* FROM Round r "
                 + "Join Game g ON r.gameId = g.gameId WHERE g.GameId = ?";
-        return jdbc.queryForObject(SELECT_ROUNDS_FOR_GAME, new RoundMapper(),
+        return jdbc.query(SELECT_ROUNDS_FOR_GAME, new RoundMapper(),
                 game.getGameId());
     }
 

@@ -25,7 +25,7 @@ public interface GameRoomService {
 
     List<Round> getRoundsById(int roundId);
 
-    Round addRound(Round round);
+    Round addRound(String userGuessKey, int gameId);
 
-    Round getResults(Game game);
+    Round getResults(String userGuessKey, int gameId);
 }

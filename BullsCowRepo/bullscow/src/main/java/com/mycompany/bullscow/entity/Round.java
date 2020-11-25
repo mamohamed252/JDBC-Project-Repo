@@ -19,7 +19,7 @@ public class Round {
     private String guessResultExact;
     private String guessResultPartial;
     private String userGuessKey;
-    private List<Round> rounds;
+    
 
     public int getRoundId() {
         return roundId;
@@ -61,12 +61,5 @@ public class Round {
         this.userGuessKey = userGuessKey;
     }
 
-    public List<Round> getRounds() {
-        return rounds;
-    }
-
-    public void setRounds(List<Round> rounds) {
-        this.rounds = rounds;
-    }
 
 }

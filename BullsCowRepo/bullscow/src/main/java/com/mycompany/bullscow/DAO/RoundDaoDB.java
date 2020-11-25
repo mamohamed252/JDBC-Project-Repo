@@ -38,14 +38,16 @@ public class RoundDaoDB implements RoundDao {
     }
 
     @Override
-    public Round addRound(Round round) {
-      
-        final String INSERT_ROUND = "INSERT INTO ROUND(RoundId, Time, GuessResultExact, GuessResultPartial, UserGuessKey) VALUES(?,?,?,?,?)";
+    public Round addRound(Round round, int gameId) {
+        
+        final String INSERT_ROUND = "INSERT INTO ROUND(RoundId, Time, GuessResultExact, GuessResultPartial, UserGuessKey, GameId) VALUES(?,?,?,?,?,?)";
         jdbc.update(INSERT_ROUND,
                 round.getRoundId(),
                 Timestamp.valueOf(round.getTime()),
                 round.getGuessResultExact(),
-                round.getGuessResultPartial());
+                round.getGuessResultPartial(),
+                round.getUserGuessKey(),
+                gameId);
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         round.setRoundId(newId);
         return round;

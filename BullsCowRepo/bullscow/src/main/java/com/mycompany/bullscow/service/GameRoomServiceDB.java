@@ -9,6 +9,8 @@ import com.mycompany.bullscow.DAO.GameDao;
 import com.mycompany.bullscow.DAO.RoundDao;
 import com.mycompany.bullscow.entity.Game;
 import com.mycompany.bullscow.entity.Round;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +31,8 @@ public class GameRoomServiceDB implements GameRoomService {
 
     public GameRoomServiceDB() {
     }
-@Autowired
+
+    @Autowired
     public GameRoomServiceDB(GameDao gameDao, RoundDao roundDao) {
         this.gameDao = gameDao;
         this.roundDao = roundDao;
@@ -37,7 +40,7 @@ public class GameRoomServiceDB implements GameRoomService {
 
     @Override
     public Game addGame(Game game) {
-       
+
         List<Integer> numbers = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
@@ -50,9 +53,8 @@ public class GameRoomServiceDB implements GameRoomService {
             result += numbers.get(i).toString();
         }
         game.setCorrectAnswerKey(result);
-        addRound(game.getRound());
-        updateStatus(game);
-         gameDao.addGame(game);
+        game.setGameStatus(false);
+        gameDao.addGame(game);
         return game;
     }
 
@@ -72,9 +74,9 @@ public class GameRoomServiceDB implements GameRoomService {
     public Game updateStatus(Game game) {
         gameDao.updateStatus(game);
 
-        if (game.getCorrectAnswerKey().equals(game.getRound().getUserGuessKey())) {
-            game.setGameStatus(true);
-        }
+//        if (game.getCorrectAnswerKey().equals(game.getRound().getUserGuessKey())) {
+//            game.setGameStatus(true);
+//        }
         return game;
     }
 
@@ -85,26 +87,26 @@ public class GameRoomServiceDB implements GameRoomService {
     }
 
     @Override
-    public Round addRound(Round round) {
-        //round = ;
-        round = roundDao.addRound(round);
-        return round;
+    public Round addRound(String userGuessKey, int gameId) {
+        Round newRound = getResults(userGuessKey, gameId);
+        roundDao.addRound(newRound, gameId);
+        return newRound;
     }
 
     @Override
-    public Round getResults(Game game) {
-
-        Round round = game.getRound();
+    public Round getResults(String userGuessKey, int gameId) {
+        Game game = getGameById(gameId);
+        
 
         String guessPart1 = game.getCorrectAnswerKey().substring(0, 1);
         String guessPart2 = game.getCorrectAnswerKey().substring(1, 2);
         String guessPart3 = game.getCorrectAnswerKey().substring(2, 3);
         String guessPart4 = game.getCorrectAnswerKey().substring(3, 4);
-
-        String roundPart1 = round.getUserGuessKey().substring(0, 1);
-        String roundPart2 = round.getUserGuessKey().substring(1, 2);
-        String roundPart3 = round.getUserGuessKey().substring(2, 3);
-        String roundPart4 = round.getUserGuessKey().substring(3, 4);
+        
+        String roundPart1 = userGuessKey.substring(0, 1);
+        String roundPart2 = userGuessKey.substring(1, 2);
+        String roundPart3 = userGuessKey.substring(2, 3);
+        String roundPart4 = userGuessKey.substring(3, 4);
 
         String[] randomNumber = {guessPart1, guessPart2, guessPart3, guessPart4};
         String[] userPerdiction = {roundPart1, roundPart2, roundPart3, roundPart4};
@@ -123,9 +125,11 @@ public class GameRoomServiceDB implements GameRoomService {
                 }
             }
         }
+        Round round = new Round();
         round.setGuessResultExact("e: " + exactCounter++);
         round.setGuessResultPartial("p: " + partialCounter++);
-
-        return game.getRound();
+        round.setUserGuessKey(userGuessKey);
+        round.setTime(LocalDateTime.now());
+        return round;
     }
 }

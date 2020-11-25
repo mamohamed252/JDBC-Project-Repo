@@ -16,7 +16,7 @@ public class Game {
     private int gameId;
     private String correctAnswerKey;
     private Boolean gameStatus;
-    private Round round;
+    private List<Round> round;
 
     public int getGameId() {
         return gameId;
@@ -42,13 +42,15 @@ public class Game {
         this.gameStatus = gameStatus;
     }
 
-    public Round getRound() {
+    public List<Round> getRound() {
         return round;
     }
 
-    public void setRound(Round round) {
+    public void setRound(List<Round> round) {
         this.round = round;
     }
+
+  
 
   
 

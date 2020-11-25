@@ -9,6 +9,7 @@ import com.mycompany.bullscow.DAO.GameDao;
 import com.mycompany.bullscow.DAO.GameDaoDB;
 import com.mycompany.bullscow.DAO.RoundDao;
 import com.mycompany.bullscow.entity.Game;
+import com.mycompany.bullscow.entity.Round;
 import com.mycompany.bullscow.service.GameRoomServiceDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Mohamed
  */
 @RestController
-@RequestMapping("/api/todo")
+@RequestMapping("/Game")
 public class controller {
-//comment
-   //comment2
-
     public GameRoomServiceDB service;
     
 @Autowired
@@ -34,17 +32,17 @@ public class controller {
     }
 
     Game game = new Game();
-
-    @PostMapping
-    public Game all() {
-        game.setCorrectAnswerKey("0123");
-        game.setGameStatus(false);
-        System.out.println(service.addGame(game));
-        return game;
-    }
-
-    @GetMapping
-    public String hi() {
-        return "hi";
-    }
+    
+  @PostMapping
+  public Game addGame(){
+     Game newGame = service.addGame(game);
+     return newGame; 
+  }
+  
+  @PostMapping("/playRound")
+  public Round addRound(String userGuessKey, int gameId){
+     Round newRound = service.addRound(userGuessKey, gameId);
+     return newRound;
+  }
 }
+
