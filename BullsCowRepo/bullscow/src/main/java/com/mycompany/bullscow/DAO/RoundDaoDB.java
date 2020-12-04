@@ -61,7 +61,7 @@ public class RoundDaoDB implements RoundDao {
             round.setRoundId(rs.getInt("RoundId"));
             round.setTime(rs.getTimestamp("Time").toLocalDateTime());
             round.setGuessResultExact(rs.getString("GuessResultExact"));
-            round.setGuessResultPartial(rs.getString("GuessResultExactPartial"));
+            round.setGuessResultPartial(rs.getString("GuessResultPartial"));
             round.setUserGuessKey(rs.getString("UserGuessKey"));
 
             return round;
