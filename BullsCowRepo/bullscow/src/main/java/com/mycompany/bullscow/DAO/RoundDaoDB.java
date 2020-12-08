@@ -40,9 +40,8 @@ public class RoundDaoDB implements RoundDao {
     @Override
     public Round addRound(Round round, int gameId) {
         
-        final String INSERT_ROUND = "INSERT INTO ROUND(RoundId, Time, GuessResultExact, GuessResultPartial, UserGuessKey, GameId) VALUES(?,?,?,?,?,?)";
+        final String INSERT_ROUND = "INSERT INTO ROUND(Time, GuessResultExact, GuessResultPartial, UserGuessKey, GameId) VALUES(?,?,?,?,?)";
         jdbc.update(INSERT_ROUND,
-                round.getRoundId(),
                 Timestamp.valueOf(round.getTime()),
                 round.getGuessResultExact(),
                 round.getGuessResultPartial(),

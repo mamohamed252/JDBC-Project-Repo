@@ -35,9 +35,8 @@ public class GameDaoDB implements GameDao {
     @Override
     @Transactional
     public Game addGame(Game game) {
-        final String INSERT_GAME = "INSERT INTO game(GameId, CorrectAnswerKey, GameStatus) VALUES(?, ?, ?)";
+        final String INSERT_GAME = "INSERT INTO game(CorrectAnswerKey, GameStatus) VALUES(?, ?)";
                 jdbc.update(INSERT_GAME,
-                        game.getGameId(),
                         game.getCorrectAnswerKey(),
                         game.getGameStatus());
                 int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
@@ -79,9 +78,15 @@ public class GameDaoDB implements GameDao {
     }
 
     @Override
-    public Game updateStatus(Game game) {
-        game.setGameStatus(false);
-        return game;
+    public void updateStatus(Game game) {
+        final String Update_Status = "UPDATE Game SET "
+                + "GameStatus = ? "
+                + "WHERE GameId = ?;"; 
+        jdbc.update(Update_Status,
+                game.getGameStatus(),
+                game.getGameId());
+        
+    
     }
     private static final class GameMapper implements RowMapper<Game> {
 

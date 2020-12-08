@@ -71,12 +71,13 @@ public class GameRoomServiceDB implements GameRoomService {
     }
 
     @Override
-    public Game updateStatus(Game game) {
+    public Game updateStatus(Game game, Round round) {
         gameDao.updateStatus(game);
-
-//        if (game.getCorrectAnswerKey().equals(game.getRound().getUserGuessKey())) {
-//            game.setGameStatus(true);
-//        }
+// if round is played update the status to true
+       String exactNumber = round.getGuessResultExact().substring(3);
+        if (Integer.parseInt(exactNumber) == 4) {
+            game.setGameStatus(true);
+        }
         return game;
     }
 
@@ -89,8 +90,9 @@ public class GameRoomServiceDB implements GameRoomService {
     @Override
     public Round addRound(String userGuessKey, int gameId) {
         Round newRound = getResults(userGuessKey, gameId);
-        roundDao.addRound(newRound, gameId);
-        return newRound;
+        Round addedRound = roundDao.addRound(newRound, gameId);
+        
+        return addedRound;
     }
 
     @Override
@@ -115,11 +117,11 @@ public class GameRoomServiceDB implements GameRoomService {
         int partialCounter = 0;
 
         for (int i = 0; i < randomNumber.length; i++) {
-            for (int j = 0; j < userPerdiction.length; j++) {
-                if (randomNumber[i].equals(userPerdiction[i])) {
+            for (int j = i; j < userPerdiction.length; j++) {
+                if (randomNumber[i].equals(userPerdiction[j]) && i == j) {
                     exactCounter++;
 
-                } else if (randomNumber[i].equals(userPerdiction[j])) {
+                } else if (randomNumber[i].equals(userPerdiction[j]) && i != j) {
                     partialCounter++;
 
                 }
@@ -130,6 +132,9 @@ public class GameRoomServiceDB implements GameRoomService {
         round.setGuessResultPartial("p: " + partialCounter++);
         round.setUserGuessKey(userGuessKey);
         round.setTime(LocalDateTime.now());
+        
+        Game updatedStatus = updateStatus(game, round);
+        gameDao.updateStatus(updatedStatus);
         return round;
     }
 }

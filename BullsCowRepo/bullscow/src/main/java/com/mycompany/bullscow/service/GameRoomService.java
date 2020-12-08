@@ -21,7 +21,7 @@ public interface GameRoomService {
 
     List<Game> getAllGames();
 
-    Game updateStatus(Game game);
+    Game updateStatus(Game game, Round round);
 
     List<Round> getRoundsById(int roundId);
 
