@@ -55,18 +55,33 @@ public class GameRoomServiceDB implements GameRoomService {
         game.setCorrectAnswerKey(result);
         game.setGameStatus(false);
         gameDao.addGame(game);
+        game.setCorrectAnswerKey("****");
         return game;
     }
 
     @Override
     public Game getGameById(int gameId) {
         Game game = gameDao.getGameById(gameId);
+        if (game.getGameStatus()== false) {
+            game.setCorrectAnswerKey("****");
+        }
         return game;
     }
 
     @Override
     public List<Game> getAllGames() {
         List<Game> games = gameDao.getAllGames();
+//        for (int i = 0; i < games.size(); i++) {
+//            if (games.get(i).getGameStatus() == false) {
+//                games.get(i).setCorrectAnswerKey("****");
+//            }
+//        }
+
+        for (Game game : games) {
+           if (game.getGameStatus()== false) {
+            game.setCorrectAnswerKey("****");
+        }
+        }
         return games;
     }
 
