@@ -27,11 +27,12 @@ public class RoundDaoDB implements RoundDao {
     JdbcTemplate jdbc;
 
     @Override
-    public List<Round> getRoundsById(int roundId) {
+    public List<Round> getRoundsById(int gameId) {
         try {
-            final String GET_ROUND_BY_GAME_ID = "SELECT * FROM round r"
-                    + "JOIN GAME g ON r.GameId = g.GameId = ?";
-            return jdbc.query(GET_ROUND_BY_GAME_ID, new RoundMapper(), roundId);
+            final String GET_ROUND_BY_GAME_ID = "SELECT * FROM round r "
+                    + "JOIN GAME g ON r.GameId = g.GameId "
+                    + "Where r.GameId = ?";
+            return jdbc.query(GET_ROUND_BY_GAME_ID, new RoundMapper(), gameId);
         } catch (DataAccessException ex) {
             return null;
         }

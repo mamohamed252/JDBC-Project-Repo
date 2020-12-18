@@ -13,6 +13,6 @@ import java.util.List;
  * @author Mohamed
  */
 public interface RoundDao {
-    List<Round> getRoundsById(int roundId);
+    List<Round> getRoundsById(int gameId);
     Round addRound(Round round, int gameId);
 }

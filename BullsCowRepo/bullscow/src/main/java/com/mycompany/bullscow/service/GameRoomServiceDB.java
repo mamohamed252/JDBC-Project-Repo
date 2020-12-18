@@ -85,8 +85,8 @@ public class GameRoomServiceDB implements GameRoomService {
         return games;
     }
 
-    @Override
-    public Game updateStatus(Game game, Round round) {
+    
+    private Game updateStatus(Game game, Round round) {
         gameDao.updateStatus(game);
 // if round is played update the status to true
        String exactNumber = round.getGuessResultExact().substring(3);
@@ -112,7 +112,7 @@ public class GameRoomServiceDB implements GameRoomService {
 
     @Override
     public Round getResults(String userGuessKey, int gameId) {
-        Game game = getGameById(gameId);
+        Game game = gameDao.getGameById(gameId);
         
 
         String guessPart1 = game.getCorrectAnswerKey().substring(0, 1);
@@ -132,7 +132,7 @@ public class GameRoomServiceDB implements GameRoomService {
         int partialCounter = 0;
 
         for (int i = 0; i < randomNumber.length; i++) {
-            for (int j = i; j < userPerdiction.length; j++) {
+            for (int j = 0; j < userPerdiction.length; j++) {
                 if (randomNumber[i].equals(userPerdiction[j]) && i == j) {
                     exactCounter++;
 
@@ -146,7 +146,7 @@ public class GameRoomServiceDB implements GameRoomService {
         round.setGuessResultExact("e: " + exactCounter++);
         round.setGuessResultPartial("p: " + partialCounter++);
         round.setUserGuessKey(userGuessKey);
-        round.setTime(LocalDateTime.now());
+        round.setTime(LocalDateTime.now().withNano(0));
         
         Game updatedStatus = updateStatus(game, round);
         gameDao.updateStatus(updatedStatus);

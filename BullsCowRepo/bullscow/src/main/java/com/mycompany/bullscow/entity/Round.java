@@ -7,6 +7,7 @@ package com.mycompany.bullscow.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -19,7 +20,16 @@ public class Round {
     private String guessResultExact;
     private String guessResultPartial;
     private String userGuessKey;
-    
+
+    public Round() {
+
+    }
+    public Round(LocalDateTime time, String guessResultExact, String guessResultPartial, String userGuessKey) {
+        this.time = time;
+        this.guessResultExact = guessResultExact;
+        this.guessResultPartial = guessResultPartial;
+        this.userGuessKey = userGuessKey;
+    }
 
     public int getRoundId() {
         return roundId;
@@ -61,5 +71,51 @@ public class Round {
         this.userGuessKey = userGuessKey;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 31 * hash + this.roundId;
+        hash = 31 * hash + Objects.hashCode(this.time);
+        hash = 31 * hash + Objects.hashCode(this.guessResultExact);
+        hash = 31 * hash + Objects.hashCode(this.guessResultPartial);
+        hash = 31 * hash + Objects.hashCode(this.userGuessKey);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Round other = (Round) obj;
+        if (this.roundId != other.roundId) {
+            return false;
+        }
+        if (!Objects.equals(this.guessResultExact, other.guessResultExact)) {
+            return false;
+        }
+        if (!Objects.equals(this.guessResultPartial, other.guessResultPartial)) {
+            return false;
+        }
+        if (!Objects.equals(this.userGuessKey, other.userGuessKey)) {
+            return false;
+        }
+        if (!Objects.equals(this.time, other.time)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Round{" + "roundId=" + roundId + ", time=" + time + ", guessResultExact=" + guessResultExact + ", guessResultPartial=" + guessResultPartial + ", userGuessKey=" + userGuessKey + '}';
+    }
+    
 
 }
